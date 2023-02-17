@@ -1,2 +1,3 @@
 /baseline_models/
 /dataset/resized_256/
+/outputs/*.model
