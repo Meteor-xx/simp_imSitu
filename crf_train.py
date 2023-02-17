@@ -47,7 +47,7 @@ if __name__ == "__main__":
         model = BaselineCrf(encoder, cnn_type=args.cnn_type, ngpus=ngpus)
 
         if args.weights_file is not None:
-            model.load_state_dict(torch.load(args.weights_file))
+           model.load_state_dict(torch.load(args.weights_file))
         dataset_train = ImSituSituation(args.image_dir, train_set, encoder, model.train_preprocess())
         dataset_dev = ImSituSituation(args.image_dir, dev_set, encoder, model.dev_preprocess())
 
