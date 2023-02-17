@@ -10,7 +10,7 @@ from imSitu import ImSituVerbRoleLocalNounEncoder, ImSituSituation
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="imsitu Situation CRF. Training, evaluation, prediction and features.")
     parser.add_argument("--command", choices=["train", "eval", "predict", "features"], required=True)  # 命令，必选
-    parser.add_argument("--output_dir", default="./outputs",
+    parser.add_argument("--output_dir", default="./outputs/",
                         help="location to put output, such as models, features, predictions")  # 输出dir
     parser.add_argument("--image_dir", default="./dataset/resized_256", help="location of images to process")  # 图片文件地址
     parser.add_argument("--dataset_dir", default="./dataset", help="location of train.json, dev.json, ect.")  # 数据文件地址
