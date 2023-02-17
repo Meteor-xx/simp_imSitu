@@ -1,5 +1,6 @@
 import argparse
 import json
+import os
 
 import torch
 from torch import optim
@@ -8,6 +9,7 @@ from baseline_crf import BaselineCrf, train_model, eval_model, format_dict
 from imSitu import ImSituVerbRoleLocalNounEncoder, ImSituSituation
 
 if __name__ == "__main__":
+
     parser = argparse.ArgumentParser(description="imsitu Situation CRF. Training, evaluation, prediction and features.")
     parser.add_argument("--command", choices=["train", "eval", "predict", "features"], required=True)  # 命令，必选
     parser.add_argument("--output_dir", default="./outputs/",
@@ -26,8 +28,9 @@ if __name__ == "__main__":
     parser.add_argument("--eval_file", default="dev.json",
                         help="the dataset file to evaluate on, ex. dev.json test.json")
     parser.add_argument("--top_k", default="10", type=int, help="topk to use for writing predictions to file")
-
+    parser.add_argument("--gpu_device", default="0", type=str, help="available gpus")
     args = parser.parse_args()
+    os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu_device
     if args.command == "train":
         print("command = training")
         train_set = json.load(open(args.dataset_dir + "/train.json"))
@@ -39,7 +42,8 @@ if __name__ == "__main__":
         else:
             encoder = torch.load(args.encoding_file)
 
-        ngpus = 1
+        ngpus = torch.cuda.device_count()
+        print("Available GPU deveices num is ", ngpus)
         model = BaselineCrf(encoder, cnn_type=args.cnn_type, ngpus=ngpus)
 
         if args.weights_file is not None:
